@@ -47,6 +47,29 @@ public class Invoice {
 
     public int getNumber() {
         return number;
+       //return this.number;
     }
+
+     public String getAsText() {
+		StringBuilder sb = new StringBuilder();
+		Integer counter = 0;
+		sb.append("nr: ");
+		sb.append(this.number);
+		sb.append("\n");
+		for (Product product : products.keySet()) {
+			sb.append(product.getName());
+			sb.append(" ");
+			sb.append(products.get(product));
+			sb.append(" ");
+			sb.append(product.getPrice());
+			sb.append("\n");
+			
+			counter++;
+		}
+		sb.append("Liczba pozycji: ");
+		sb.append(counter);
+		return sb.toString();
+		
+	}
 
 }
