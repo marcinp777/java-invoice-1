@@ -100,6 +100,7 @@ public class InvoiceTest {
         invoice.addProduct(new TaxFreeProduct("Tablet", new BigDecimal("1678")), 0);
     }
 
+
     @Test(expected = IllegalArgumentException.class)
     public void testInvoiceWithNegativeQuantity() {
         invoice.addProduct(new DairyProduct("Zsiadle mleko", new BigDecimal("5.55")), -1);
@@ -131,7 +132,7 @@ public class InvoiceTest {
         Assert.assertThat(number1, Matchers.lessThan(number2));
     }
 
-@Test
+        @Test
 	public void testPrintIsNotNull() {
 		String print = invoice.getAsText();
 		Assert.assertNotEquals(null, print);
@@ -176,7 +177,18 @@ public class InvoiceTest {
 				Matchers.containsString("Kubek 2 5"));
 		
 	}
-    
+  public void testInvoicePrintoutWhole() {
+		String number = invoice.getNumber().toString();
+		// 2x kubek - price: 10
+		invoice.addProduct(new TaxFreeProduct("Kubek", new BigDecimal("5")), 2);
+		invoice.addProduct(new TaxFreeProduct("Czekolada", new BigDecimal("3")), 10);
+		String printedInvoice = invoice.getAsText();
+		
+		Assert.assertThat(
+				printedInvoice, 
+				Matchers.containsString("nr: " + number + "\nKubek, sztuk: 2, cena: 5\nCzekolada, sztuk: 10, cena: 3"));
+		
+	}    
 
 
 }
