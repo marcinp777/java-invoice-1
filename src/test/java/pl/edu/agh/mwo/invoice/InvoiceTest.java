@@ -213,7 +213,10 @@ public class InvoiceTest {
 
         @Test
 	public void testNumberOfInvoiceItems(){
-		//invoice.addProduct(new TaxFreeProduct("chleb", new BigDecimal("5")), 2);
+
+//invoice.addProduct(new TaxFreeProduct("jajko niespodzianka", new BigDecimal("1.50")), 1)    ;
+		//invoice.addProduct(new TaxFreeProduct("chleb", new BigDecimal("5")), 2); 
+		//invoice.addProduct(new TaxFreeProduct("chleb", new BigDecimal("5")), 2); 
 		//invoice.addProduct(new TaxFreeProduct("frytki", new BigDecimal("6.50")), 3);
 		Assert.assertThat(invoice.getAsText(), Matchers.containsString("Liczba pozycji: 3"));
 	}
