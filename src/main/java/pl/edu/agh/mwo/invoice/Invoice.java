@@ -9,6 +9,7 @@ public class Invoice {
     private Map<Product, Integer> products = new HashMap<Product, Integer>();
     private static int nextNumber = 0;
     private final int number = ++nextNumber;
+    static int countQuantity = 0;
     public OtherProduct addProduct;
 
   
@@ -17,11 +18,16 @@ public class Invoice {
     }
 
     public void addProduct(Product product, Integer quantity) {
-        if (product == null || quantity <= 0) {
-            throw new IllegalArgumentException();
-        }
-        products.put(product, quantity);
-    }
+		if (product == null || quantity <= 0) {
+			throw new IllegalArgumentException();
+		}
+		if (products.containsKey(product)) {
+			Integer currentQuantity = this.products.get(product);
+			this.products.put(product, currentQuantity + quantity);
+		} else {
+			this.products.put(product, quantity);
+		}
+	}
 
     public BigDecimal getNetTotal() {
         BigDecimal totalNet = BigDecimal.ZERO;
@@ -50,26 +56,19 @@ public class Invoice {
        //return this.number;
     }
 
-     public String getAsText() {
-		StringBuilder sb = new StringBuilder();
-		Integer counter = 0;
-		sb.append("nr: ");
-		sb.append(this.number);
-		sb.append("\n");
-		for (Product product : products.keySet()) {
-			sb.append(product.getName());
-			sb.append(" ");
-			sb.append(products.get(product));
-			sb.append(" ");
-			sb.append(product.getPrice());
-			sb.append("\n");
-			
-			counter++;
-		}
-		sb.append("Liczba pozycji: ");
-		sb.append(counter);
-		return sb.toString();
+    public String getAsText() {
+		StringBuilder sb = new StringBuilder("");
+		sb.append("nr: " + this.number);
+		DecimalFormat df = new DecimalFormat("0.00");
 		
+		for (Product product : products.keySet()) {
+			BigDecimal quantity = new BigDecimal(products.get(product));
+			sb.append(" " + product.getName() + " " + quantity + " " + df.format(product.getPrice()) + " ");											
+			countQuantity++;			
+		}
+		
+		sb.append("; Liczba pozycji: " + countQuantity);
+				
+		return  sb.toString();
 	}
-
 }
